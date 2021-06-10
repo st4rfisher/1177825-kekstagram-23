@@ -23,6 +23,8 @@
 // }
 
 const PHOTOS_COUNT = 25;
+const minLikesCount = 15;
+const maxLikesCount = 200;
 const id = [];
 
 const createPhoto = () => {
@@ -35,16 +37,52 @@ const createPhoto = () => {
   };
 }
 
+const createComment = () => {
+  return {
+    id: '',
+    avatar: '',
+    message: '',
+    name: ''
+  };
+}
+
 const photos = new Array(PHOTOS_COUNT).fill().map(() => createPhoto());
 console.log(photos);
 
-const generateAttributes = () => {
+const generateID = () => {
   for (let i = 0; i <= photos.length - 1; i++) {
     id.push(i + 1);
     photos[i].id = id[i];
+  }
+}
+
+const generateURL = () => {
+  for (let i = 0; i <= photos.length - 1; i++) {
     photos[i].url = 'photos/' + id[i] + '.jpg';
   }
-  console.log(id);
+}
+
+const generateDescription = () => {
+  for (let i = 0; i <= photos.length - 1; i++) {
+    photos[i].description = 'Описание №' + id[i];
+  }
+}
+
+const generateLikes = (minLikesCount, maxLikesCount) => {
+  if ((minLikesCount < 0) || (maxLikesCount < 0)) {
+    photos[i].likes = 15;
+  }
+
+  for (let i = 0; i <= photos.length - 1; i++) {
+    photos[i].likes = Math.floor(Math.random() * (maxLikesCount - minLikesCount + 1) + minLikesCount);
+  }
+}
+
+const generateAttributes = () => {
+  generateID();
+  generateURL()
+  generateDescription();
+  generateLikes(minLikesCount, maxLikesCount);
 }
 
 generateAttributes();

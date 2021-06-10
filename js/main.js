@@ -1,7 +1,5 @@
-/*
-Задача:
+/*Задача:
 Сформировать массив из 25 сгенерированных объектов. Объекты - фото с комментариями.
-
 Структура объекта:
 1) id, число — идентификатор описания. Неповторяющееся число от 1 до 25
 2) url, строка - адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса не повторяются
@@ -14,76 +12,90 @@
    - message, строка
    - name - строка, значение которой формируется случайно
 */
+
 // const photo = {
-//   id: 1,
-//   url: 'тут адрес',
-//   description: 'тут описание',
-//   likes: 1,
-//   comments: ['тут объекты']
-// }
+//   id: '',
+//   url: '',
+//   description: '',
+//   likes: '',
+//   comments: []
+// };
 
 const PHOTOS_COUNT = 25;
+const COMMENTS_COUNT = 10;
 const minLikesCount = 15;
 const maxLikesCount = 200;
 const id = [];
 
-const createPhoto = () => {
-  return {
-    id: '',
-    url: '',
-    description: '',
-    likes: '',
-    comments: []
-  };
-}
+const createPhoto = () => ({
+  id: '',
+  url: '',
+  description: '',
+  likes: '',
+  comments: [],
+});
 
-const createComment = () => {
-  return {
-    id: '',
-    avatar: '',
-    message: '',
-    name: ''
-  };
-}
+const createComment = () => ({
+  id: '',
+  avatar: '',
+  message: '',
+  name: '',
+});
 
 const photos = new Array(PHOTOS_COUNT).fill().map(() => createPhoto());
+const comments = new Array(COMMENTS_COUNT).fill().map(() => createComment());
+
 console.log(photos);
+console.log(comments);
 
 const generateID = () => {
-  for (let i = 0; i <= photos.length - 1; i++) {
-    id.push(i + 1);
-    photos[i].id = id[i];
+  for (let index = 0; index <= photos.length - 1; index++) {
+    id.push(index + 1);
   }
-}
+};
+
+const generatePhotoID = () => {
+  for (let index = 0; index <= photos.length - 1; index++) {
+    generateID();
+    photos[index].id = id[index];
+  }
+};
+
+const generateCommentID = () => {
+  for (let index = 0; index <= comments.length - 1; index++) {
+    generateID();
+    comments[index].id = id[index];
+  }
+};
 
 const generateURL = () => {
-  for (let i = 0; i <= photos.length - 1; i++) {
-    photos[i].url = 'photos/' + id[i] + '.jpg';
+  for (let index = 0; index <= photos.length - 1; index++) {
+    photos[index].url = 'photos/' + id[index] + '.jpg';
   }
-}
+};
 
 const generateDescription = () => {
-  for (let i = 0; i <= photos.length - 1; i++) {
-    photos[i].description = 'Описание №' + id[i];
+  for (let index = 0; index <= photos.length - 1; index++) {
+    photos[index].description = 'Описание №' + id[index];
   }
-}
+};
 
-const generateLikes = (minLikesCount, maxLikesCount) => {
-  if ((minLikesCount < 0) || (maxLikesCount < 0)) {
-    photos[i].likes = 15;
+const generateLikes = (minCount, maxCount) => {
+  for (let index = 0; index <= photos.length - 1; index++) {
+    if ((minCount < 0) || (maxCount < 0)) {
+      photos[index].likes = 15;
+    }
+    photos[index].likes = Math.floor(Math.random() * (maxCount - minCount + 1) + minCount);
   }
-
-  for (let i = 0; i <= photos.length - 1; i++) {
-    photos[i].likes = Math.floor(Math.random() * (maxLikesCount - minLikesCount + 1) + minLikesCount);
-  }
-}
+};
 
 const generateAttributes = () => {
-  generateID();
-  generateURL()
+  generateCommentID();
+  generatePhotoID();
+  generateURL();
   generateDescription();
   generateLikes(minLikesCount, maxLikesCount);
-}
+};
 
 generateAttributes();
 
@@ -104,41 +116,34 @@ generateAttributes();
 //     return this.id = index;
 //   }
 // }
-
-
 // const comment = {
 //   id: 1,
 //   avatar: '',
 //   message: '',
 //   name: ''
 // }
-
-
-
 // const addPhoto = () => {
-
 //   return {
 //     name: '',
 //     coatColor: '',
 //     eyesColor: '',
 //   };
 // };
+// function getRandomNumber(min, max) {
+//   if ((min < 0) || (max < 0)) {
+//     return 'Введите значения больше или равное 0';
+//   }
 
-function getRandomNumber(min, max) {
-  if ((min < 0) || (max < 0)) {
-    return 'Введите значения больше или равное 0';
-  }
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
 
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+// function checkMaxStringLength(string, maxLength) {
+//   if (string.length > maxLength) {
+//     return false;
+//   }
 
-function checkMaxStringLength(string, maxLength) {
-  if (string.length > maxLength) {
-    return false;
-  }
+//   return true;
+// }
 
-  return true;
-}
-
-getRandomNumber(1, 5);
-checkMaxStringLength('12345', 5);
+// getRandomNumber(1, 5);
+// checkMaxStringLength('12345', 5);

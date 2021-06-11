@@ -23,10 +23,14 @@
 
 const PHOTOS_COUNT = 25;
 const COMMENTS_COUNT = 10;
+const MAX_ID_COUNT = 300;
 const minLikesCount = 15;
 const maxLikesCount = 200;
-const id = [];
+const photosID = [];
+const randomIDarray = [];
+const coments = [];
 
+/*============================================================ */
 const createPhoto = () => ({
   id: '',
   url: '',
@@ -48,38 +52,29 @@ const comments = new Array(COMMENTS_COUNT).fill().map(() => createComment());
 console.log(photos);
 console.log(comments);
 
-const generateID = () => {
-  for (let index = 0; index <= photos.length - 1; index++) {
-    id.push(index + 1);
-  }
-};
-
+/*============================================================ */
 const generatePhotoID = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    generateID();
-    photos[index].id = id[index];
+    photosID.push(index + 1);
+    photos[index].id = photosID[index];
   }
 };
 
-const generateCommentID = () => {
-  for (let index = 0; index <= comments.length - 1; index++) {
-    generateID();
-    comments[index].id = id[index];
-  }
-};
-
+/*============================================================ */
 const generateURL = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    photos[index].url = 'photos/' + id[index] + '.jpg';
+    photos[index].url = `photos/${photosID[index] }.jpg`;
   }
 };
 
+/*============================================================ */
 const generateDescription = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    photos[index].description = 'Описание №' + id[index];
+    photos[index].description = `Описание №'${photosID[index]}`;
   }
 };
 
+/*============================================================ */
 const generateLikes = (minCount, maxCount) => {
   for (let index = 0; index <= photos.length - 1; index++) {
     if ((minCount < 0) || (maxCount < 0)) {
@@ -89,7 +84,33 @@ const generateLikes = (minCount, maxCount) => {
   }
 };
 
+/*============================================================ */
+function randomIDgenerator(array) {
+  if (array.length >= MAX_ID_COUNT) return;
+  let newID = Math.floor(Math.random() * MAX_ID_COUNT);
+  if (array.indexOf(newID) < 0) {
+    array.push(newID);
+  }
+  randomIDgenerator(array);
+};
+
+const generateCommentID = () => {
+  randomIDgenerator(randomIDarray);
+  for (let index = 0; index <= comments.length - 1; index++) {
+    comments[index].id = randomIDarray[index];
+  }
+};
+
+const generateAvatar = () => {
+  for (let index = 0; index <= photos.length - 1; index++) {
+    photos[index].url = 'photos/' + photosID[index] + '.jpg';
+  }
+};
+
+
+/*============================================================ */
 const generateAttributes = () => {
+
   generateCommentID();
   generatePhotoID();
   generateURL();

@@ -24,11 +24,23 @@
 const PHOTOS_COUNT = 25;
 const COMMENTS_COUNT = 10;
 const MAX_ID_COUNT = 300;
+const IMG_COUNT = 6;
 const minLikesCount = 15;
 const maxLikesCount = 200;
 const photosID = [];
 const randomIDarray = [];
-const coments = [];
+const messages = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+];
+const names = ['Иван', 'Дмитрий', 'Алексей', 'Мирослав', 'Артём', 'Анатолий', 'Сергей'];
+
+/*============================================================ */
+
 
 /*============================================================ */
 const createPhoto = () => ({
@@ -53,7 +65,7 @@ console.log(photos);
 console.log(comments);
 
 /*============================================================ */
-const generatePhotoID = () => {
+function generatePhotoID() {
   for (let index = 0; index <= photos.length - 1; index++) {
     photosID.push(index + 1);
     photos[index].id = photosID[index];
@@ -70,52 +82,112 @@ const generateURL = () => {
 /*============================================================ */
 const generateDescription = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    photos[index].description = `Описание №'${photosID[index]}`;
+    photos[index].description = `Описание №${photosID[index]}`;
   }
 };
 
 /*============================================================ */
-const generateLikes = (minCount, maxCount) => {
+
+const generateRandomNumber = (minNumber, maxNumber) => Math.abs(Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber));
+
+const generateLikes = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    if ((minCount < 0) || (maxCount < 0)) {
-      photos[index].likes = 15;
-    }
-    photos[index].likes = Math.floor(Math.random() * (maxCount - minCount + 1) + minCount);
+    photos[index].likes = generateRandomNumber(minLikesCount, maxLikesCount);
   }
 };
 
 /*============================================================ */
-function randomIDgenerator(array) {
-  if (array.length >= MAX_ID_COUNT) return;
-  let newID = Math.floor(Math.random() * MAX_ID_COUNT);
+function randomIDgenerator(array, maxNumber) {
+
+  if (array.length >= maxNumber) {
+    return;
+  }
+  const newID = generateRandomNumber(1, maxNumber);
   if (array.indexOf(newID) < 0) {
     array.push(newID);
   }
-  randomIDgenerator(array);
-};
+  randomIDgenerator(array, maxNumber);
+}
 
+/*============================================================ */
+// function randomIDgenerator(array) {
+
+//   if (array.length >= MAX_ID_COUNT) return;
+//   const newID = generateRandomNumber(1, MAX_ID_COUNT);
+//   if (array.indexOf(newID) < 0) {
+//     array.push(newID);
+//   }
+//   randomIDgenerator(array);
+// }
+
+/*============================================================ */
 const generateCommentID = () => {
-  randomIDgenerator(randomIDarray);
+  randomIDgenerator(randomIDarray, MAX_ID_COUNT);
   for (let index = 0; index <= comments.length - 1; index++) {
     comments[index].id = randomIDarray[index];
   }
 };
 
+/*============================================================ */
 const generateAvatar = () => {
-  for (let index = 0; index <= photos.length - 1; index++) {
-    photos[index].url = 'photos/' + photosID[index] + '.jpg';
+  for (let index = 0; index <= comments.length - 1; index++) {
+    const randomNumber = generateRandomNumber(1, IMG_COUNT);
+    comments[index].avatar = `img/avatar-${randomNumber}.svg`;
   }
 };
 
+/*============================================================ */
+const generateMessage = () => {
+  for (let index = 0; index <= comments.length - 1; index++) {
+    const messageIndex = generateRandomNumber(0,  messages.length - 1);
+    comments[index].message = messages[messageIndex];
+  }
+};
+
+/*============================================================ */
+const generateName = () => {
+  for (let index = 0; index <= comments.length - 1; index++) {
+    const nameIndex = generateRandomNumber(0,  messages.length - 1);
+    comments[index].name = names[nameIndex];
+  }
+};
+
+const generatePhotoComments = () => {
+
+};
+
+const photoComments = [];
+/*============================================================ */
+const addComment = () => {
+  let randomNumber = generateRandomNumber(0, COMMENTS_COUNT);
+  for (let commentIndex = 0; commentIndex <= randomNumber; commentIndex++) {
+    let randomIndex = generateRandomNumber(0, comments.length - 1);
+    if(photoComments.indexOf(comments[randomIndex]) < 0) {
+      photoComments.push(comments[randomIndex]);
+    }
+    // photoComments = comments.map(() => comments[randomIndex]);
+    // console.log(photoComments);
+  }
+
+  // for (let i = 0; i <= randomNumber; commentIndex++) {}
+  // photos.forEach(() => {
+
+  // });
+
+  console.log(photoComments);
+};
 
 /*============================================================ */
 const generateAttributes = () => {
-
-  generateCommentID();
   generatePhotoID();
   generateURL();
   generateDescription();
-  generateLikes(minLikesCount, maxLikesCount);
+  generateLikes();
+  generateCommentID();
+  generateAvatar();
+  generateMessage();
+  generateName();
+  addComment();
 };
 
 generateAttributes();

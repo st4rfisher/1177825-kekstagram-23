@@ -1,32 +1,9 @@
-/*Задача:
-Сформировать массив из 25 сгенерированных объектов. Объекты - фото с комментариями.
-Структура объекта:
-1) id, число — идентификатор описания. Неповторяющееся число от 1 до 25
-2) url, строка - адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса не повторяются
-3) description, строка — описание фотографии
-4) likes, число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
-5) comments, массив объектов — список комментариев, оставленных другими пользователями к этой фотографии. Все комментарии генерируются случайным образом
-   Структура комментария:
-   - id — случайное число. Идентификаторы не должны повторяться.
-   - avatar — строка, значение которой формируется по правилу img/avatar-{{случайное число от 1 до 6}}.svg
-   - message, строка
-   - name - строка, значение которой формируется случайно
-*/
-
-// const photo = {
-//   id: '',
-//   url: '',
-//   description: '',
-//   likes: '',
-//   comments: []
-// };
-
 const PHOTOS_COUNT = 25;
 const COMMENTS_COUNT = 10;
 const MAX_ID_COUNT = 300;
 const IMG_COUNT = 6;
-const minLikesCount = 15;
-const maxLikesCount = 200;
+const MIN_LIKES_COUNT = 15;
+const MAX_LIKES_COUNT = 200;
 const photosID = [];
 const randomIDarray = [];
 const messages = [
@@ -38,9 +15,6 @@ const messages = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 const names = ['Иван', 'Дмитрий', 'Алексей', 'Мирослав', 'Артём', 'Анатолий', 'Сергей'];
-
-/*============================================================ */
-
 
 /*============================================================ */
 const createPhoto = () => ({
@@ -61,11 +35,8 @@ const createComment = () => ({
 const photos = new Array(PHOTOS_COUNT).fill().map(() => createPhoto());
 const comments = new Array(COMMENTS_COUNT).fill().map(() => createComment());
 
-console.log(photos);
-console.log(comments);
-
 /*============================================================ */
-function generatePhotoID() {
+const generatePhotoID = () =>{
   for (let index = 0; index <= photos.length - 1; index++) {
     photosID.push(index + 1);
     photos[index].id = photosID[index];
@@ -92,13 +63,12 @@ const generateRandomNumber = (minNumber, maxNumber) => Math.abs(Math.floor(Math.
 
 const generateLikes = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    photos[index].likes = generateRandomNumber(minLikesCount, maxLikesCount);
+    photos[index].likes = generateRandomNumber(MIN_LIKES_COUNT, MAX_LIKES_COUNT);
   }
 };
 
 /*============================================================ */
 function randomIDgenerator(array, maxNumber) {
-
   if (array.length >= maxNumber) {
     return;
   }
@@ -108,17 +78,6 @@ function randomIDgenerator(array, maxNumber) {
   }
   randomIDgenerator(array, maxNumber);
 }
-
-/*============================================================ */
-// function randomIDgenerator(array) {
-
-//   if (array.length >= MAX_ID_COUNT) return;
-//   const newID = generateRandomNumber(1, MAX_ID_COUNT);
-//   if (array.indexOf(newID) < 0) {
-//     array.push(newID);
-//   }
-//   randomIDgenerator(array);
-// }
 
 /*============================================================ */
 const generateCommentID = () => {
@@ -152,91 +111,45 @@ const generateName = () => {
   }
 };
 
-const generatePhotoComments = () => {
-
-};
-
-const photoComments = [];
 /*============================================================ */
-const addComment = () => {
-  let randomNumber = generateRandomNumber(0, COMMENTS_COUNT);
-  for (let commentIndex = 0; commentIndex <= randomNumber; commentIndex++) {
-    let randomIndex = generateRandomNumber(0, comments.length - 1);
-    if(photoComments.indexOf(comments[randomIndex]) < 0) {
-      photoComments.push(comments[randomIndex]);
-    }
-    // photoComments = comments.map(() => comments[randomIndex]);
-    // console.log(photoComments);
-  }
-
-  // for (let i = 0; i <= randomNumber; commentIndex++) {}
-  // photos.forEach(() => {
-
-  // });
-
-  console.log(photoComments);
-};
-
-/*============================================================ */
-const generateAttributes = () => {
-  generatePhotoID();
-  generateURL();
-  generateDescription();
-  generateLikes();
+const generateComment = () => {
   generateCommentID();
   generateAvatar();
   generateMessage();
   generateName();
-  addComment();
 };
 
-generateAttributes();
+/*============================================================ */
 
-// const generateURL = () => {
-//   for (let i = 0; i <= photos.length - 1; i++) {
-//     photos[i].url = 'photos/' + id[i];
-//   }
-// }
+const generateRandomComments = () => {
+  generateComment();
+  const photoComments = [];
+  const randomNumber = generateRandomNumber(0, COMMENTS_COUNT);
+  for (let commentIndex = 0; commentIndex <= randomNumber; commentIndex++) {
+    const randomIndex = generateRandomNumber(0, comments.length - 1);
+    if(photoComments.indexOf(comments[randomIndex]) < 0) {
+      photoComments.push(comments[randomIndex]);
+    }
+  }
+  return photoComments;
+};
 
+const addRandomComments = () => {
+  for (let index = 0; index <= photos.length - 1; index++) {
+    const photoComments = generateRandomComments();
+    for (let commentsIndex = 0; commentsIndex <= photoComments.length - 1; commentsIndex++) {
+      photos[index].comments = photoComments;
+    }
+  }
+};
 
-// function generateID() {
+/*============================================================ */
+const generatePhotoAttributes = () => {
+  generatePhotoID();
+  generateURL();
+  generateDescription();
+  generateLikes();
+  addRandomComments();
+};
 
-//   let index;
-
-//   for (let i = 0; i <= photos.length - 1; i++) {
-//     index = photos.indexOf(photos[i]) + 1;
-//     console.log(index);
-//     return this.id = index;
-//   }
-// }
-// const comment = {
-//   id: 1,
-//   avatar: '',
-//   message: '',
-//   name: ''
-// }
-// const addPhoto = () => {
-//   return {
-//     name: '',
-//     coatColor: '',
-//     eyesColor: '',
-//   };
-// };
-// function getRandomNumber(min, max) {
-//   if ((min < 0) || (max < 0)) {
-//     return 'Введите значения больше или равное 0';
-//   }
-
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// }
-
-// function checkMaxStringLength(string, maxLength) {
-//   if (string.length > maxLength) {
-//     return false;
-//   }
-
-//   return true;
-// }
-
-// getRandomNumber(1, 5);
-// checkMaxStringLength('12345', 5);
+generatePhotoAttributes();

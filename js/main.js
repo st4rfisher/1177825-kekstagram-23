@@ -136,10 +136,7 @@ const generateRandomComments = () => {
 
 const addRandomComments = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    const photoComments = generateRandomComments();
-    for (let commentsIndex = 0; commentsIndex <= photoComments.length - 1; commentsIndex++) {
-      photos[index].comments = photoComments;
-    }
+    photos[index].comments = generateRandomComments();
   }
 };
 

@@ -46,7 +46,7 @@ const generatePhotoID = () =>{
 /*============================================================ */
 const generateURL = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
-    photos[index].url = `photos/${photosID[index] }.jpg`;
+    photos[index].url = `photos/${photosID[index]}.jpg`;
   }
 };
 
@@ -134,7 +134,7 @@ const generateRandomComments = () => {
   return photoComments;
 };
 
-const addRandomComments = () => {
+const addComments = () => {
   for (let index = 0; index <= photos.length - 1; index++) {
     photos[index].comments = generateRandomComments();
   }
@@ -146,7 +146,7 @@ const generatePhotoAttributes = () => {
   generateURL();
   generateDescription();
   generateLikes();
-  addRandomComments();
+  addComments();
 };
 
 generatePhotoAttributes();

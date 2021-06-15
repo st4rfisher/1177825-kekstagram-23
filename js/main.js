@@ -72,7 +72,7 @@ const generateLikes = () => {
 };
 
 /*============================================================ */
-function randomIDgenerator(array, maxNumber) {
+function generateRandomID (array, maxNumber) {
   if (array.length >= maxNumber) {
     return;
   }
@@ -80,12 +80,12 @@ function randomIDgenerator(array, maxNumber) {
   if (array.indexOf(newID) < 0) {
     array.push(newID);
   }
-  randomIDgenerator(array, maxNumber);
+  generateRandomID(array, maxNumber);
 }
 
 /*============================================================ */
 const generateCommentID = () => {
-  randomIDgenerator(randomIDarray, MAX_ID_COUNT);
+  generateRandomID(randomIDarray, MAX_ID_COUNT);
   comments.forEach((comment) => {
     const index = comments.indexOf(comment);
     comments[index].id = randomIDarray[index];

@@ -36,7 +36,7 @@ const photos = new Array(PHOTOS_COUNT).fill().map(() => createPhoto());
 const comments = new Array(COMMENTS_COUNT).fill().map(() => createComment());
 
 /*============================================================ */
-const generatePhotoID = () =>{
+const generatePhotoID = () => {
   photos.forEach((photo) => {
     const index = photos.indexOf(photo);
     photosID.push(index + 1);

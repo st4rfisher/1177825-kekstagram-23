@@ -37,34 +37,38 @@ const comments = new Array(COMMENTS_COUNT).fill().map(() => createComment());
 
 /*============================================================ */
 const generatePhotoID = () =>{
-  for (let index = 0; index <= photos.length - 1; index++) {
+  photos.forEach((photo) => {
+    const index = photos.indexOf(photo);
     photosID.push(index + 1);
     photos[index].id = photosID[index];
-  }
+  });
 };
 
 /*============================================================ */
 const generateURL = () => {
-  for (let index = 0; index <= photos.length - 1; index++) {
+  photos.forEach((photo) => {
+    const index = photos.indexOf(photo);
     photos[index].url = `photos/${photosID[index]}.jpg`;
-  }
+  });
 };
 
 /*============================================================ */
 const generateDescription = () => {
-  for (let index = 0; index <= photos.length - 1; index++) {
+  photos.forEach((photo) => {
+    const index = photos.indexOf(photo);
     photos[index].description = `Описание №${photosID[index]}`;
-  }
+  });
 };
 
 /*============================================================ */
-
 const generateRandomNumber = (minNumber, maxNumber) => Math.abs(Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber));
 
+/*============================================================ */
 const generateLikes = () => {
-  for (let index = 0; index <= photos.length - 1; index++) {
+  photos.forEach((photo) => {
+    const index = photos.indexOf(photo);
     photos[index].likes = generateRandomNumber(MIN_LIKES_COUNT, MAX_LIKES_COUNT);
-  }
+  });
 };
 
 /*============================================================ */
@@ -82,33 +86,39 @@ function randomIDgenerator(array, maxNumber) {
 /*============================================================ */
 const generateCommentID = () => {
   randomIDgenerator(randomIDarray, MAX_ID_COUNT);
-  for (let index = 0; index <= comments.length - 1; index++) {
+  comments.forEach((comment) => {
+    const index = comments.indexOf(comment);
     comments[index].id = randomIDarray[index];
-  }
+  });
 };
 
 /*============================================================ */
+
 const generateAvatar = () => {
-  for (let index = 0; index <= comments.length - 1; index++) {
-    const randomNumber = generateRandomNumber(1, IMG_COUNT);
-    comments[index].avatar = `img/avatar-${randomNumber}.svg`;
-  }
+  comments.forEach((comment) => {
+    const index = comments.indexOf(comment);
+    const avatarIndex = generateRandomNumber(1, IMG_COUNT);
+    comments[index].avatar = `img/avatar-${avatarIndex}.svg`;
+  });
 };
 
 /*============================================================ */
+
 const generateMessage = () => {
-  for (let index = 0; index <= comments.length - 1; index++) {
+  comments.forEach((comment) => {
+    const index = comments.indexOf(comment);
     const messageIndex = generateRandomNumber(0,  messages.length - 1);
     comments[index].message = messages[messageIndex];
-  }
+  });
 };
 
 /*============================================================ */
 const generateName = () => {
-  for (let index = 0; index <= comments.length - 1; index++) {
+  comments.forEach((comment) => {
+    const index = comments.indexOf(comment);
     const nameIndex = generateRandomNumber(0,  messages.length - 1);
     comments[index].name = names[nameIndex];
-  }
+  });
 };
 
 /*============================================================ */
@@ -135,9 +145,10 @@ const generateRandomComments = () => {
 };
 
 const addComments = () => {
-  for (let index = 0; index <= photos.length - 1; index++) {
+  photos.forEach((photo) => {
+    const index = photos.indexOf(photo);
     photos[index].comments = generateRandomComments();
-  }
+  });
 };
 
 /*============================================================ */

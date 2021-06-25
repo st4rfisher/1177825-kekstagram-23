@@ -1,20 +1,18 @@
 import {photos} from './create-photos.js';
 import {generatePhotoAttributes} from './generate-photo-attributes.js';
 
-const picturesContainer = document.querySelector('.pictures');
-const pictureTemplate = document.querySelector('#picture');
-const picture = pictureTemplate.content.querySelector('.picture');
-const picuresListFragment = document.createDocumentFragment();
+const thumbnailsContainer = document.querySelector('.pictures');
+const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const thumbnailsListFragment = document.createDocumentFragment();
 
 generatePhotoAttributes();
 
 photos.forEach(({url, likes, comments}) => {
-  const pictureClone = picture.cloneNode(true);
-  pictureClone.querySelector('.picture__img').setAttribute('src', url);
-  pictureClone.querySelector('.picture__comments').textContent = comments.length;
-  pictureClone.querySelector('.picture__likes').textContent = likes;
-  picuresListFragment.appendChild(pictureClone);
+  const thumbnailClone = thumbnailTemplate.cloneNode(true);
+  thumbnailClone.querySelector('.picture__img').setAttribute('src', url);
+  thumbnailClone.querySelector('.picture__comments').textContent = comments.length;
+  thumbnailClone.querySelector('.picture__likes').textContent = likes;
+  thumbnailsListFragment.appendChild(thumbnailClone);
 });
 
-picturesContainer.appendChild(picuresListFragment);
-
+thumbnailsContainer.appendChild(thumbnailsListFragment);

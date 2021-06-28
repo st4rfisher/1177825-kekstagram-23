@@ -1,4 +1,3 @@
-// const body = document.querySelector('body');
 
 const generateRandomNumber = (minNumber, maxNumber) => Math.abs(Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber));
 

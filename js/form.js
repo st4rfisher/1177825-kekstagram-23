@@ -1,23 +1,18 @@
-import {body} from './render-full-image.js';
+import {open} from './open-close-covers.js';
+import {close} from './open-close-covers.js';
+
 const uploadFileButton = document.querySelector('.img-upload__input');
 const uploadFileOverlay = document.querySelector('.img-upload__overlay');
-
-function openUploadFileOverlay () {
-  uploadFileOverlay.classList.remove('hidden');
-  body.classList.toggle('modal-open');
-
-  document.addEventListener('keydown', onFullSizeEscKeydown);
-}
-
-// function closeFullSize () {
-//   fullSize.classList.add('hidden');
-//   body.classList.toggle('modal-open');
-
-//   document.removeEventListener('keydown', onFullSizeEscKeydown);
-// }
+const overlayCancelButton = uploadFileOverlay.querySelector('.img-upload__cancel');
 
 uploadFileButton.addEventListener('change', () => {
-
-  body.classList.toggle('modal-open');
+  open(uploadFileOverlay);
 });
 
+overlayCancelButton.addEventListener('click', () => {
+  const events =getEventListeners(uploadFileButton);
+  console.log()
+  close(uploadFileOverlay);
+});
+
+export {uploadFileOverlay};

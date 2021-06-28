@@ -1,4 +1,6 @@
 import {photos} from './create-photos.js';
+import {isEscEvent} from './utils.js';
+
 const thumbnails = document.querySelectorAll('.picture');
 const fullSize = document.querySelector('.big-picture');
 const fullSizeCancelButton = fullSize.querySelector('.big-picture__cancel');
@@ -11,6 +13,29 @@ const commentsList = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('#comment').content.querySelector('.social__comment');
 const commentsListFragment = document.createDocumentFragment();
 const body = document.querySelector('body');
+
+const onFullSizeEscKeydown = (evt) => {
+  if (isEscEvent(evt)) {
+    evt.preventDefault();
+    fullSize.classList.add('hidden');
+    body.classList.toggle('modal-open');
+  }
+};
+
+function openFullSize () {
+  fullSize.classList.remove('hidden');
+  commentsCountBlock.classList.add('hidden');
+  body.classList.toggle('modal-open');
+
+  document.addEventListener('keydown', onFullSizeEscKeydown);
+}
+
+function closeFullSize () {
+  fullSize.classList.add('hidden');
+  body.classList.toggle('modal-open');
+
+  document.removeEventListener('keydown', onFullSizeEscKeydown);
+}
 
 const addFullImageComments = (photo) => {
   commentsList.innerHTML = '';
@@ -36,22 +61,14 @@ const addFullImageAttributes = (photo) => {
 
 for (let index = 0; index <= thumbnails.length - 1; index++) {
   thumbnails[index].addEventListener('click', () => {
-    fullSize.classList.remove('hidden');
-    commentsCountBlock.classList.add('hidden');
-    body.classList.toggle('modal-open');
+    openFullSize();
     addFullImageAttributes(photos[index]);
     addFullImageComments(photos[index]);
   });
 }
 
 fullSizeCancelButton.addEventListener('click', () => {
-  fullSize.classList.add('hidden');
-  body.classList.toggle('modal-open');
+  closeFullSize();
 });
 
-document.addEventListener('keydown', (evt) => {
-  if (evt.keyCode === 27) {
-    fullSize.classList.toggle('hidden');
-    body.classList.toggle('modal-open');
-  }
-});
+export {body};

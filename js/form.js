@@ -7,11 +7,10 @@ const overlayCancelButton = uploadFileOverlay.querySelector('.img-upload__cancel
 
 uploadFileButton.addEventListener('change', () => {
   open(uploadFileOverlay);
+  uploadFileButton.value = null;
 });
 
 overlayCancelButton.addEventListener('click', () => {
-  const events =getEventListeners(uploadFileButton);
-  console.log()
   close(uploadFileOverlay);
 });
 

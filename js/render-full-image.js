@@ -84,13 +84,13 @@ const addFullImageAttributes = (photo) => {
   description.textContent = photo.description;
 };
 
-for (let index = 0; index <= thumbnails.length - 1; index++) {
-  thumbnails[index].addEventListener('click', () => {
+thumbnails.forEach((thumbnail, index) => {
+  thumbnail.addEventListener('click', () => {
     openFullSize();
     addFullImageAttributes(photos[index]);
     addFullImageComments(photos[index]);
   });
-}
+});
 
 fullSizeCancelButton.addEventListener('click', () => {
   close(fullSize);

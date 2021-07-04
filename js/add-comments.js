@@ -2,7 +2,7 @@ import {generateCommentAttributes} from './generate-comment-attributes.js';
 import {generateRandomNumber} from './utils.js';
 import {comments} from './create-comments.js';
 import {photos} from './create-photos.js';
-const COMMENTS_COUNT = 10;
+import {COMMENTS_COUNT} from './create-comments.js';
 
 const generateRandomComments = () => {
   generateCommentAttributes();

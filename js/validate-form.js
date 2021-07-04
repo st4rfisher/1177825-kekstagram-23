@@ -13,123 +13,106 @@
 если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
 */
 
+
 import {uploadFileOverlay} from './form.js';
+import {hasDuplicates} from './utils.js';
+import {fullSizeCancelButton} from './render-full-image.js';
+
 const hashtagsInput = uploadFileOverlay.querySelector('.text__hashtags');
 const submit = uploadFileOverlay.querySelector('.img-upload__submit');
-const hash = '#';
-const regExp = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
-const MIN_NAME_LENGTH = 2;
-const MAX_NAME_LENGTH = 20;
-let messages = [];
-// hashtagsInput.addEventListener('input', () => {
-//   const valueLength = hashtagsInput.value.length;
-//   if (valueLength < MIN_NAME_LENGTH) {
-//     hashtagsInput.setCustomValidity(`Необходимо ввести ещё ${MIN_NAME_LENGTH - valueLength} симв.`);
-//   } else if (valueLength > MAX_NAME_LENGTH) {
-//     hashtagsInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_NAME_LENGTH} симв.`);
-//   } else {
-//     hashtagsInput.setCustomValidity('');
-//   }
 
-//   hashtagsInput.reportValidity();
-// });
-
-// // hashtagsInput.addEventListener('invalid', () => {
-// //   if (!regExp.test(hashtagsInput.value)) {
-// //     hashtagsInput.setCustomValidity('Хэштег должен начинаться с символа # и содержать русские или латинские буквы');
-// //   }
-// // });
-
-// const checkRegExp = (hashtag) => {
-
-//   if (!regExp.test(hashtag)) {
-//     hashtagsInput.setCustomValidity('Хэштеги должны начинаться с символа #, содержать русские или латинские буквы, или цифры');
-//   }
-// };
+const regExp = /^#[A-Za-zА-Яа-я0-9]/;
+const MAX_HASHTAG_LENGTH = 20;
 
 submit.addEventListener('click', (evt) => {
   evt.preventDefault();
-  const hashtagsInputValue = hashtagsInput.value;
-  const values = hashtagsInputValue.split(' ');
-  console.log(values);
+  const messages = [];
+  const hashtagsInputValue = hashtagsInput.value.toLowerCase();
+  const hashtags = hashtagsInputValue.split(' ');
+  if (hashtagsInput.value !== '') {
+    for (let index = 0; index < hashtags.length; index++) {
+      let message = 'Хэш-теги должны начинаться с символа #, содержать русские или латинские буквы, или цифры';
+      if (!regExp.test(hashtags[index]) && messages.indexOf(message) === -1) {
+        messages.push(message);
+      }
 
-  for (let index = 0; index < values.length; index++) {
-    if (!regExp.test(values[index])) {
-      console.log(values[index]);
-      hashtagsInput.validationMessage('Хэштеги должны начинаться с символа #, содержать русские или латинские буквы, или цифры');
-      break;
+      message = 'Максимальная длина одного хэш-тега 20 символов, включая решётку';
+      if (hashtags[index].length > MAX_HASHTAG_LENGTH && messages.indexOf(message) === -1) {
+        messages.push(message);
+      }
+
+      message = 'Не допустимо повторное использование хэш-тэга';
+      if (hasDuplicates(hashtags) && messages.indexOf(message) === -1) {
+        messages.push(message);
+      }
+
+      message = 'Нельзя указать больше пяти хэш-тегов';
+      if (hashtags.length > 5 && messages.indexOf(message) === -1) {
+        messages.push(message);
+      }
+
+      else {
+        hashtagsInput.setCustomValidity('');
+      }
+
+      const notifications = messages.join('. \n  \n');
+      hashtagsInput.setCustomValidity(notifications);
+      hashtagsInput.reportValidity();
     }
-
+    return;
   }
 
-  // values.forEach((value) => {
-  //   checkRegExp(value);
-  // });
-
+  console.log('Форма отправлена');
 });
+
+// hashtagsInput.addEventListener('click', (evt) => {
+//   fullSizeCancelButton
+// });
 
 // function CustomValidation() { }
 
 // CustomValidation.prototype = {
-//   // Установим пустой массив сообщений об ошибках
-//   invalidities: [],
-
-//   // Метод, проверяющий валидность
-//   checkValidity: function(input) {
-
+//   invalidities: [],   // Установим пустой массив сообщений об ошибках
+//   checkValidity: function(input) {   // Метод, проверяющий валидность
 //     const validity = input.validity;
-
-//     // if (validity.patternMismatch) {
-//     //   this.addInvalidity('This is the wrong pattern for this field');
-//     // }
-
-//     // if (validity.rangeOverflow) {
-//     //   const max = getAttributeValue(input, 'max');
-//     //   this.addInvalidity('The maximum value should be ' + max);
-//     // }
-
-//     // if (validity.rangeUnderflow) {
-//     //   const min = getAttributeValue(input, 'min');
-//     //   this.addInvalidity('The minimum value should be ' + min);
-//     // }
-
-//     if (!regExp.test(input)) {
-//       this.addInvalidity('Хэштег должен начинаться с символа # и иметь русские или латинские символы');
+//     if (validity.patternMismatch) {
+//       this.addInvalidity('This is the wrong pattern for this field');
 //     }
+
+//     if (validity.rangeOverflow) {
+//       var max = getAttributeValue(input, 'max');
+//       this.addInvalidity('The maximum value should be ' + max);
+//     }
+
+//     if (validity.rangeUnderflow) {
+//       var min = getAttributeValue(input, 'min');
+//       this.addInvalidity('The minimum value should be ' + min);
+//     }
+
+//     if (validity.stepMismatch) {
+//       var step = getAttributeValue(input, 'step');
+//       this.addInvalidity('This number needs to be a multiple of ' + step);
+//     }
+
 //     // И остальные проверки валидности...
 //   },
 
-//   // Добавляем сообщение об ошибке в массив ошибок
-//   addInvalidity: function(message) {
+//   addInvalidity: function(message) { // Добавляем сообщение об ошибке в массив ошибок
 //     this.invalidities.push(message);
 //   },
 
-//   // Получаем общий текст сообщений об ошибках
-//   getInvalidities: function() {
+//   getInvalidities: function() {  // Получаем общий текст сообщений об ошибках
 //     return this.invalidities.join('. \n');
-//   },
+//   }
 // };
 
-// CustomValidation.prototype.getInvaliditiesForHTML = function() {
-//   return this.invalidities.join('. <br>');
-// };
-
-
-// // Добавляем обработчик клика на кнопку отправки формы
-// submit.addEventListener('click', function(evt) {
-//     evt.preventDefault();
-//     // Проверим валидность поля, используя встроенную в JavaScript функцию checkValidity()
-//     if (hashtagsInput.checkValidity() == false) {
-//       const inputCustomValidation = new CustomValidation(); // Создадим объект CustomValidation
+// submit.addEventListener('click', function(e) { // Добавляем обработчик клика на кнопку отправки формы
+//     if (hashtagsInput.checkValidity() == false) { // Проверим валидность поля, используя встроенную в JavaScript функцию checkValidity()
+//       var inputCustomValidation = new CustomValidation(); // Создадим объект CustomValidation
 //       inputCustomValidation.checkValidity(hashtagsInput); // Выявим ошибки
-//       const customValidityMessage = inputCustomValidation.getInvalidities(); // Получим все сообщения об ошибках
+//       var customValidityMessage = inputCustomValidation.getInvalidities(); // Получим все сообщения об ошибках
 //       hashtagsInput.setCustomValidity(customValidityMessage); // Установим специальное сообщение об ошибке
-
-//       const customValidityMessageForHTML = inputCustomValidation.getInvaliditiesForHTML();
-//       hashtagsInput.insertAdjacentHTML('afterend', '<p class="error-message">' + customValidityMessageForHTML + '</p>');
-
-//     }
-
+//     } // закончился if
 // });
 
 

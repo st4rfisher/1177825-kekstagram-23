@@ -1,4 +1,4 @@
-const COMMENTS_COUNT = 10;
+const COMMENTS_COUNT = 30;
 const createComment = () => ({
   id: '',
   avatar: '',
@@ -6,4 +6,4 @@ const createComment = () => ({
   name: '',
 });
 const comments = new Array(COMMENTS_COUNT).fill().map(() => createComment());
-export {comments};
+export {comments, COMMENTS_COUNT};

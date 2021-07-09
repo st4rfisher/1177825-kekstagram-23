@@ -1,3 +1,4 @@
+
 const generateRandomNumber = (minNumber, maxNumber) => Math.abs(Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber));
 
 function generateRandomID (array, maxNumber) {
@@ -11,4 +12,7 @@ function generateRandomID (array, maxNumber) {
   generateRandomID(array, maxNumber);
 }
 
-export {generateRandomNumber, generateRandomID};
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+const hasDuplicates = (array) => new Set(array).size !== array.length;
+
+export {generateRandomNumber, generateRandomID, isEscEvent, hasDuplicates};

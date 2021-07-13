@@ -27,4 +27,5 @@ scaleControlSmaller.addEventListener('click', () => {
   }
 });
 
+export {previewImage};
 

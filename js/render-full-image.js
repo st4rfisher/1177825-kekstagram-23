@@ -7,7 +7,7 @@ const fullSize = document.querySelector('.big-picture');
 const fullSizeCancelButton = fullSize.querySelector('.big-picture__cancel');
 const fullImage = fullSize.querySelector('.big-picture__img').querySelector('img');
 const likesCount = fullSize.querySelector('.likes-count');
-const commentsCountBlock = fullSize.querySelector('.social__comment-count');
+// const commentsCountBlock = fullSize.querySelector('.social__comment-count');
 const commentsCount = fullSize.querySelector('.comments-count');
 const description = fullSize.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
@@ -51,13 +51,13 @@ const createCommentsFragment = (comments) => {
 const addFullImageComments = (photo) => {
   commentsList.innerHTML = '';
   commentsLoader.classList.remove('hidden');
-  let comments = photo.comments;
-  console.log('comments')
-  console.log(comments)
+  const comments = photo.comments;
+  // console.log('comments')
+  // console.log(comments)
   let fragment = comments.slice(0, MAX_PAGE_NUMBER);
   comments.splice(0, MAX_PAGE_NUMBER);
-  console.log('fragment')
-  console.log(fragment)
+  // console.log('fragment')
+  // console.log(fragment)
   createCommentsFragment(fragment);
   if(fragment.length < MAX_PAGE_NUMBER) {
     commentsLoader.classList.add('hidden');
@@ -65,10 +65,10 @@ const addFullImageComments = (photo) => {
   commentsLoader.addEventListener('click', () => {
     fragment = comments.slice(0, MAX_PAGE_NUMBER);
     comments.splice(0, MAX_PAGE_NUMBER);
-    console.log('comments')
-    console.log(comments)
-    console.log('fragment')
-    console.log(fragment)
+    // console.log('comments')
+    // console.log(comments)
+    // console.log('fragment')
+    // console.log(fragment)
     createCommentsFragment(fragment);
     if (comments.length === 0) {
       commentsLoader.classList.add('hidden');

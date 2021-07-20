@@ -37,6 +37,7 @@ const addFullImageComments = (photo) => {
   commentsLoader.classList.remove('hidden');
   let comments = [];
   comments = photo.comments;
+  const commentsLength = comments.length;
   let fragment = comments.slice(0, MAX_PAGE_NUMBER);
   comments.splice(0, MAX_PAGE_NUMBER);
   createCommentsFragment(fragment);
@@ -45,7 +46,7 @@ const addFullImageComments = (photo) => {
     commentsLoader.classList.add('hidden');
     commentsCountBlock.classList.add('hidden');
   }
-  commentsCountBlock.innerHTML = `${count} из <span class="comments-count">${comments.length}</span> комментариев`;
+  commentsCountBlock.innerHTML = `${count} из <span class="comments-count">${commentsLength}</span> комментариев`;
 
   commentsLoader.addEventListener('click', () => {
     // commentsCountBlock.innerHTML = `${count} из <span class="comments-count">125</span> комментариев`;

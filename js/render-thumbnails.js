@@ -1,6 +1,5 @@
 // import {photos} from './create-photos.js';
 // import {generatePhotoAttributes} from './generate-photo-attributes.js';
-import {addFunctionality} from './render-full-image.js';
 import './api.js';
 const thumbnailsContainer = document.querySelector('.pictures');
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -15,8 +14,6 @@ const renderThumbnails = (photos) => {
     thumbnailsListFragment.appendChild(thumbnailClone);
   });
   thumbnailsContainer.appendChild(thumbnailsListFragment);
-
-
 };
 
 // generatePhotoAttributes();

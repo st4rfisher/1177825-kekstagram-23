@@ -1,5 +1,5 @@
 import {generateCommentAttributes} from './generate-comment-attributes.js';
-import {generateRandomNumber} from './utils.js';
+import {generateRandomNumber} from '../utils.js';
 import {comments} from './create-comments.js';
 import {photos} from './create-photos.js';
 import {COMMENTS_COUNT} from './create-comments.js';
